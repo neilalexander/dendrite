@@ -584,7 +584,8 @@ func (r *Inputer) processStateBefore(
 	case input.HasState:
 		// If we're overriding the state then we need to go and retrieve
 		// them from the database. It's a hard error if they are missing.
-		stateEvents, err := r.DB.EventsFromIDs(ctx, roomInfo, input.StateEventIDs)
+		var stateEvents []types.Event
+		stateEvents, err = r.DB.EventsFromIDs(ctx, roomInfo, input.StateEventIDs)
 		if err != nil {
 			return "", nil, fmt.Errorf("r.DB.EventsFromIDs: %w", err)
 		}
@@ -620,7 +621,7 @@ func (r *Inputer) processStateBefore(
 			StateToFetch: tuplesNeeded,
 		}
 		stateBeforeRes := &api.QueryStateAfterEventsResponse{}
-		if err := r.Queryer.QueryStateAfterEvents(ctx, stateBeforeReq, stateBeforeRes); err != nil {
+		if err = r.Queryer.QueryStateAfterEvents(ctx, stateBeforeReq, stateBeforeRes); err != nil {
 			return "", nil, fmt.Errorf("r.Queryer.QueryStateAfterEvents: %w", err)
 		}
 		switch {
