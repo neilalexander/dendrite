@@ -792,3 +792,5 @@ User can invite remote user to room with version 11
 Remote user can backfill in a room with version 11
 Can reject invites over federation for rooms with version 11
 Can receive redactions from regular users over federation in room version 11
+Can upload self-signing keys
+uploading signed devices gets propagated over federation
