@@ -51,7 +51,7 @@ jobs:
         # Build until the "build" stage, this then can be used by other steps.
       - name: Build "build" image
         if: github.ref_name == 'main' || github.event_name == 'release'
-        id: docker_build_monolith
+        id: docker_build_cache
         uses: docker/build-push-action@v3
         with:
           target: build
