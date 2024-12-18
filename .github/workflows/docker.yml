@@ -59,6 +59,9 @@ jobs:
           cache-to: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache,mode=max
           context: .
           platforms: ${{ env.PLATFORMS }}
+          push: true
+          tags: |
+            ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
 
       - name: Build main monolith image
         if: github.ref_name == 'main'
