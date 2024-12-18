@@ -55,20 +55,20 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           target: build
-          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:buildcache,mode=max
           context: .
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: |
-            ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
+            ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:binaries
 
       - name: Build main monolith image
         if: github.ref_name == 'main'
         id: docker_build_monolith
         uses: docker/build-push-action@v3
         with:
-          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:buildcache
           context: .
           platforms: ${{ env.PLATFORMS }}
           push: true
@@ -137,7 +137,7 @@ jobs:
         id: docker_build_demo_pinecone
         uses: docker/build-push-action@v3
         with:
-          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-pinecone
           platforms: ${{ env.PLATFORMS }}
@@ -151,7 +151,7 @@ jobs:
         id: docker_build_demo_pinecone_release
         uses: docker/build-push-action@v3
         with:
-          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-pinecone
           platforms: ${{ env.PLATFORMS }}
@@ -197,7 +197,7 @@ jobs:
         id: docker_build_demo_yggdrasil
         uses: docker/build-push-action@v3
         with:
-          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-yggdrasil
           platforms: ${{ env.PLATFORMS }}
@@ -211,7 +211,7 @@ jobs:
         id: docker_build_demo_yggdrasil_release
         uses: docker/build-push-action@v3
         with:
-          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-monolith:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-yggdrasil
           platforms: ${{ env.PLATFORMS }}

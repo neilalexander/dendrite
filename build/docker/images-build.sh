@@ -6,7 +6,7 @@ TAG=${1:-latest}
 
 echo "Building tag '${TAG}'"
 
-docker build -t ghcr.io/element-hq/dendrite:buildcache --target build .
+docker build -t ghcr.io/element-hq/dendrite-monolith:binaries --target build .
 
 docker build -t ghcr.io/element-hq/dendrite-monolith:${TAG} .
 
