@@ -157,10 +157,10 @@ jobs:
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: |
-            ${{ env.DOCKER_NAMESPACE }}/dendrite-demo-yggdrasil:latest
-            ${{ env.DOCKER_NAMESPACE }}/dendrite-demo-yggdrasil:${{ env.RELEASE_VERSION }}
-            ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-demo-yggdrasil:latest
-            ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-demo-yggdrasil:${{ env.RELEASE_VERSION }}
+            ${{ env.DOCKER_NAMESPACE }}/dendrite-demo-pinecone:latest
+            ${{ env.DOCKER_NAMESPACE }}/dendrite-demo-pinecone:${{ env.RELEASE_VERSION }}
+            ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-demo-pinecone:latest
+            ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite-demo-pinecone:${{ env.RELEASE_VERSION }}
 
   demo-yggdrasil:
     name: Yggdrasil demo image
