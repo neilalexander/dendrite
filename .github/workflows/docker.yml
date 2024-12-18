@@ -137,6 +137,7 @@ jobs:
         id: docker_build_demo_pinecone
         uses: docker/build-push-action@v3
         with:
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-pinecone
           platforms: ${{ env.PLATFORMS }}
@@ -150,6 +151,7 @@ jobs:
         id: docker_build_demo_pinecone_release
         uses: docker/build-push-action@v3
         with:
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-pinecone
           platforms: ${{ env.PLATFORMS }}
@@ -195,6 +197,7 @@ jobs:
         id: docker_build_demo_yggdrasil
         uses: docker/build-push-action@v3
         with:
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-yggdrasil
           platforms: ${{ env.PLATFORMS }}
@@ -208,6 +211,7 @@ jobs:
         id: docker_build_demo_yggdrasil_release
         uses: docker/build-push-action@v3
         with:
+          cache-from: type=registry,ref=ghcr.io/${{ env.GHCR_NAMESPACE }}/dendrite:buildcache
           context: .
           file: ./build/docker/Dockerfile.demo-yggdrasil
           platforms: ${{ env.PLATFORMS }}
