@@ -263,8 +263,10 @@ func (w *worker) _next() {
 		scope.SetTag("room_id", w.roomID)
 	})
 	msgs, err := w.subscription.Fetch(1, nats.Context(ctx))
-	switch err {
-	case nil:
+	switch {
+	case err == nil,
+		errors.Is(err, nats.ErrTimeout),
+		errors.Is(err, context.DeadlineExceeded):
 		// Make sure that once we're done here, we queue up another call
 		// to _next in the inbox.
 		defer w.Act(nil, w._next)
@@ -275,11 +277,19 @@ func (w *worker) _next() {
 			return
 		}
 
-	case context.DeadlineExceeded, context.Canceled:
-		// The context exceeded, so we've been waiting for more than a
-		// minute for activity in this room. At this point we will shut
-		// down the subscriber to free up resources. It'll get started
-		// again if new activity happens.
+	case errors.Is(err, nats.ErrConsumerDeleted),
+		errors.Is(err, nats.ErrSubscriptionClosed):
+		// The consumer was deleted, likely by inactivity threshold, therefore
+		// we should stop this goroutine and allow another one to be started
+		// if needed by startWorkerForRoom.
+		logrus.WithError(err).Infof("Pausing roomserver input for room %q due to inactivity", w.roomID)
+		w.Lock()
+		w.subscription = nil
+		w.Unlock()
+		return
+
+	case errors.Is(err, context.Canceled):
+		// The context was cancelled, so Dendrite is probably shutting down.
 		if err = w.subscription.Unsubscribe(); err != nil {
 			logrus.WithError(err).Errorf("Failed to unsubscribe to stream for room %q", w.roomID)
 		}
